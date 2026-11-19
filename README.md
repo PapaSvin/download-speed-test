@@ -9,10 +9,12 @@
 ```sh
 git clone https://github.com/PapaSvin/download-speed-test.git
 cd download-speed-test
-python download_speed.py "https://octodex.github.com/images/original.png"
+python download_speed.py "octodex.github.com/images/original.png"
 ```
 
-Для замера подставьте прямую HTTP(S)-ссылку на большой файл, например на изображение. Если `python` недоступен, используйте `python3` на macOS/Linux или `py` на Windows.
+Для замера подставьте прямую ссылку на большой файл, например на изображение. Если протокол не указан, скрипт использует HTTPS. Для сервера, который поддерживает только HTTP, укажите `http://` явно.
+
+Если `python` недоступен, используйте `python3` на macOS/Linux или `py` на Windows.
 
 ## Результат
 

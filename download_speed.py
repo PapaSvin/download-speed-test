@@ -1,4 +1,5 @@
 import argparse
+import re
 from http.client import HTTPException
 from time import perf_counter
 from urllib.request import urlopen
@@ -9,10 +10,15 @@ REQUEST_COUNT = 10
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Измерение скорости скачивания по URL")
-    parser.add_argument("url", metavar="URL", help="адрес файла (http:// или https://)")
+    parser.add_argument("url", metavar="URL", help="адрес файла, по умолчанию HTTPS")
     url = parser.parse_args().url.strip()
-    if not url.lower().startswith(("http://", "https://")):
-        parser.error("укажите полный URL с http:// или https://")
+    if not url:
+        parser.error("укажите адрес файла")
+    protocol = re.match(r"^([a-z][a-z0-9+.-]*)://", url, re.IGNORECASE)
+    if protocol is None:
+        url = f"https://{url.removeprefix('//')}"
+    elif protocol.group(1).lower() not in ("http", "https"):
+        parser.error("поддерживаются только HTTP и HTTPS")
 
     total_bytes = 0
     total_seconds = 0.0
